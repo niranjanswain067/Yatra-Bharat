@@ -1,0 +1,78 @@
+:root {
+  /* Colors */
+  --color-primary: #800000; /* Maroon */
+  --color-secondary: #000080; /* Navy */
+  --color-accent: #D4AF37; /* Gold */
+  
+  --color-text-main: #333333;
+  --color-text-muted: #666666;
+  --color-bg-main: #FAFAFA;
+  --color-bg-card: #FFFFFF;
+
+  /* Typography */
+  --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-family-serif: 'Playfair Display', Georgia, serif;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+body {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-main);
+  background-color: var(--color-bg-main);
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-serif);
+  color: var(--color-primary);
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) var(--space-xl);
+  background-color: var(--color-secondary);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navbar .logo {
+  font-family: var(--font-family-serif);
+  font-size: 1.5rem;
+  color: var(--color-accent);
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.page-container {
+  padding: var(--space-xl);
+  flex-grow: 1;
+}

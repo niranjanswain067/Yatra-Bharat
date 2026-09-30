@@ -1,0 +1,114 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id           String        @id @default(cuid())
+  name         String
+  destinations Destination[]
+}
+
+model Destination {
+  id          String             @id @default(cuid())
+  name        String
+  slug        String             @unique
+  region      String
+  categoryId  String
+  category    Category           @relation(fields: [categoryId], references: [id])
+  summary     String
+  description String
+  bestSeason  String?
+  status      Status             @default(DRAFT)
+  images      DestinationImage[]
+  plans       PlanDestination[]
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+}
+
+model DestinationImage {
+  id            String      @id @default(cuid())
+  url           String
+  altText       String?
+  sortOrder     Int         @default(0)
+  destinationId String
+  destination   Destination @relation(fields: [destinationId], references: [id])
+}
+
+model TravelPlan {
+  id            String            @id @default(cuid())
+  name          String
+  slug          String            @unique
+  durationDays  Int
+  priceAmount   Decimal
+  priceCurrency String            @default("INR")
+  status        Status            @default(DRAFT)
+  days          ItineraryDay[]
+  destinations  PlanDestination[]
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+model ItineraryDay {
+  id           String     @id @default(cuid())
+  dayNumber    Int
+  title        String
+  description  String
+  travelPlanId String
+  travelPlan   TravelPlan @relation(fields: [travelPlanId], references: [id])
+}
+
+model PlanDestination {
+  id            String      @id @default(cuid())
+  travelPlanId  String
+  destinationId String
+  travelPlan    TravelPlan  @relation(fields: [travelPlanId], references: [id])
+  destination   Destination @relation(fields: [destinationId], references: [id])
+}
+
+model Enquiry {
+  id            String        @id @default(cuid())
+  name          String
+  email         String
+  phone         String?
+  destinationId String?
+  travelPlanId  String?
+  travelDates   String?
+  partySize     Int?
+  message       String?
+  status        EnquiryStatus @default(NEW)
+  createdAt     DateTime      @default(now())
+}
+
+model NewsletterSubscriber {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  subscribedAt DateTime @default(now())
+  status       String   @default("ACTIVE")
+}
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Status {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum EnquiryStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
